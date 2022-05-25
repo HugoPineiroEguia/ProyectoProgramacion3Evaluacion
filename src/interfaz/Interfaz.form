@@ -151,7 +151,7 @@
           <Color blue="0" green="66" red="ff" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/images/2849791_volume_sound_speaker_multimedia_icon.png"/>
+          <Image iconType="3" name="/images/2849792_volume_speaker_sound_media_music_icon.png"/>
         </Property>
       </Properties>
       <Events>

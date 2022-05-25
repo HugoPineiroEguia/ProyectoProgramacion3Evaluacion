@@ -112,7 +112,7 @@ public class Interfaz extends javax.swing.JFrame {
         getContentPane().add(curasion, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 170, 110));
 
         botonSonido.setBackground(new java.awt.Color(255, 102, 0));
-        botonSonido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2849791_volume_sound_speaker_multimedia_icon.png"))); // NOI18N
+        botonSonido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2849792_volume_speaker_sound_media_music_icon.png"))); // NOI18N
         botonSonido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonSonidoActionPerformed(evt);

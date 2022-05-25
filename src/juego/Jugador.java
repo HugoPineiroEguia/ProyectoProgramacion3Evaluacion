@@ -6,7 +6,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import static numerosrandom.NumerosRandom.numeroRandom;
+import static numerorandom.NumeroRandom.numeroRandom;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -168,7 +168,7 @@ public class Jugador extends Personaje implements Iesquivar, Iatacar, Icurar {
         if (monster.getHp() <= 0) {
             monster.nuevoMonstruo(monster, bicho);
             jugador.setPuntos(jugador.getPuntos() + 1);
-            JOptionPane.showMessageDialog(null, "Has derrotado al monstruo.\nHas matado ya a " + jugador.getPuntos() + " monstruos.");
+            JOptionPane.showMessageDialog(null, "Has derrotado al monstruo.\nHas matado ya a " + jugador.getPuntos() + " monstruos.", "ENEMIGO DERROTADO", JOptionPane.WARNING_MESSAGE, stats);
         }
         if (jugador.getHp() <= 0) {
             boolean bucle = true;

@@ -4,7 +4,7 @@ package juego;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import static numerosrandom.NumerosRandom.numeroRandom;
+import static numerorandom.NumeroRandom.numeroRandom;
 
 public class Monstruo extends Personaje{
     
