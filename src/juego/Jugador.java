@@ -11,6 +11,8 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,14 +24,44 @@ public class Jugador extends Personaje implements Iesquivar, Iatacar, Icurar {
     Icon curar = new ImageIcon("C:/Users/pinha/OneDrive/Documentos/DAM/PROG/Juego/Iconos/Corazon_FondoRosa.png");
     Icon stats = new ImageIcon("C:/Users/pinha/OneDrive/Documentos/DAM/PROG/Juego/Iconos/Notas_FondoRaro.png");
     
+    PreparedStatement ps;
     String nombre;
     int puntos;
+    int objetivo;
+    String objetivoCumplido;
     Scanner sc;
     BufferedWriter bf;
     FileWriter fich;
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(int objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    public String getObjetivoCumplido() {
+        return objetivoCumplido;
+    }
+
+    public void setObjetivoCumplido(String objetivoCumplido) {
+        this.objetivoCumplido = objetivoCumplido;
+    }
+    
+    
+
     public void iniciarJugador(Jugador jugador) {
         nombre = JOptionPane.showInputDialog(null, new JLabel("¿Como te llamas?", stats, JLabel.LEADING), "ATAQUE", JOptionPane.PLAIN_MESSAGE);
+        objetivo = Integer.parseInt(JOptionPane.showInputDialog(null, new JLabel("¿Cuantos monstruos te ves capaz de derrotar?", stats, JLabel.LEADING), "ATAQUE", JOptionPane.PLAIN_MESSAGE));
         jugador.setHp(50);
         
     }
@@ -171,6 +203,12 @@ public class Jugador extends Personaje implements Iesquivar, Iatacar, Icurar {
             JOptionPane.showMessageDialog(null, "Has derrotado al monstruo.\nHas matado ya a " + jugador.getPuntos() + " monstruos.", "ENEMIGO DERROTADO", JOptionPane.WARNING_MESSAGE, stats);
         }
         if (jugador.getHp() <= 0) {
+            if (jugador.getObjetivo()<jugador.getPuntos()){
+                jugador.setObjetivoCumplido("Cumplio con lo que se propuso");
+            }
+            else{
+                jugador.setObjetivoCumplido("No cumplio con lo que esperaba");
+            }
             boolean bucle = true;
             boolean guardar = false;
             JOptionPane.showMessageDialog(null, "El monstruo te ha derrotado, tienes 0 puntos de vida.\nAcabaste la partida con " + jugador.getPuntos() + " puntos.", "FIN DEL JUEGO", JOptionPane.WARNING_MESSAGE, stats);
@@ -184,6 +222,7 @@ public class Jugador extends Personaje implements Iesquivar, Iatacar, Icurar {
                         case 2:
                             if (guardar == false) {
                                 guardarRegistro(jugador, fich);
+                                guardarBaseDatos(jugador);
                                 JOptionPane.showMessageDialog(null, "Se ha guardado correctamente esta partida", "FIN DEL JUEGO", JOptionPane.WARNING_MESSAGE, stats);
                                 guardar = true;
                             } else {
@@ -205,6 +244,27 @@ public class Jugador extends Personaje implements Iesquivar, Iatacar, Icurar {
             jugador.setHp(50);
         }
     }
+    
+    public void guardarBaseDatos(Jugador jugador){
+        Conexion conectar = new Conexion();
+        Connection con;
+        try {
+            con = conectar.establecerConexion();
+            ps = con.prepareStatement("INSERT INTO partidas (NombreJugador, Objetivo, Monstruos, ObjetivoConseguido) VALUES (?,?,?,?)");
+            ps.setString(1, jugador.getNombre());
+            ps.setInt(2, jugador.getObjetivo());
+            ps.setInt(3, jugador.getPuntos());
+            ps.setString(4, jugador.getObjetivoCumplido());  
+            ps.execute();           
+            
+            
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+    
+    
+    
 
     public void guardarRegistro(Jugador jugador, File file) {
         try {
